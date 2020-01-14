@@ -1,0 +1,21 @@
+price:
+    css: 'h5 span.a-color-price'
+    type: Text
+name:
+    css: 'h1.a-size-large span.a-size-large'
+    type: Text
+rating:
+    css: 'a.a-popover-trigger span.a-size-medium'
+    type: Text
+actual_price:
+    css: 'h5 span.a-color-secondary'
+    type: Text
+availability:
+    css: 'div.feature div.a-section.a-spacing-none span.a-size-medium'
+    type: Text
+price2:
+    css: 'td.a-span12 span.a-size-medium'
+    type: Text
+
+
+  priceblock_saleprice
