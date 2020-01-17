@@ -44,12 +44,13 @@ def check_price():
 
             converted_price = int(eval(prod_price[1:].strip()))
             
-            print('Product : ' + prod_name)
-            print('Price : ' + prod_price)
-            print()
+            #print('Product : ' + prod_name)
+            #print('Price : ' + prod_price)
+            #print()
                   
             if (converted_price != prev_price):
                 line['price'] = str(converted_price)
+                sendMail(prev_price,converted_price, prod_name, page_url)
 
             writer.writerow({'url': line['url'], 'price': line['price']})
 
@@ -59,23 +60,24 @@ def check_price():
                 f1.write(line)
 
     
-def sendMail(converted_price, URL):
+def sendMail(prev_price, current_price, prod_name, url):
     server = smtplib.SMTP('smtp.gmail.com', 587)
     server.ehlo()
     server.starttls()
     server.ehlo()
 
-    server.login('mukeshbisht1020@gmail.com', 'asdfgh123456')
+    server.login('mukeshbisht1020@gmail.com', 'xvzomrfgidvwxxto')
 
-    subject = "Check the price"
-    body = 'Hey! the price fell down.Its Rupees '+ str(converted_price) + ' Check the link -->' + URL
-    
-    msg = "Subject: {s}\n\n{body}".format(s = subject)
+    subject = "The price has been changed!!!"
+    deviation = current_price - prev_price; 
+    body = 'The price for the item : {} has been changed. It went from {} to {}. The deviation is {} \n Check it here : {}'.format(prod_name, prev_price, current_price, deviation, url)
+
+    msg = f"Subject: {subject}\n\n{body}"
 
     server.sendmail(
         'mukeshbisht1020@gmail.com',
         'heathcliff1020@gmail.com',
-        msg
+         msg.encode('utf-8')
         )
 
     print("Email has been sent.")
