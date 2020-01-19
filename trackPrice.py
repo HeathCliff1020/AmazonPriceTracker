@@ -5,7 +5,7 @@ import json
 import csv
 
 
-possible_price_ids = ['priceblock_ourprice', 'priceblock_saleprice']
+possible_price_ids = ['priceblock_ourprice', 'priceblock_saleprice','a-color-price']
 
 
 def check_price():
@@ -45,7 +45,7 @@ def check_price():
             converted_price = int(eval(prod_price[1:].strip()))
             
             #print('Product : ' + prod_name)
-            #print('Price : ' + prod_price)
+            print('Price : ' + str(converted_price))
             #print()
                   
             if (converted_price != prev_price):
