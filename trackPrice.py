@@ -1,7 +1,6 @@
 import requests
 from bs4 import BeautifulSoup
 import smtplib
-import json
 import csv
 import tkinter as tk
 
@@ -136,7 +135,7 @@ def sendMail(prev_price, current_price, prod_name, url):
         receiverEmail,
         msg.encode('utf-8')
     )
-    
+
     print("Email has been sent.")
 
     server.quit()
