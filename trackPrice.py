@@ -3,10 +3,64 @@ from bs4 import BeautifulSoup
 import smtplib
 import json
 import csv
-
+import tkinter as tk
 
 possible_price_ids = ['priceblock_ourprice', 'priceblock_saleprice','a-color-price']
 
+
+def getEmailDetails():
+
+    master = tk.Tk()
+    tk.Label(master,
+             text="Your email").grid(row=0,
+                              padx=20,
+                              pady=5)
+    tk.Label(master,
+             text="Password").grid(row=1,
+                                   padx=20,
+                                   pady=5)
+    tk.Label(master,
+             text="Receiver's Email").grid(row=2,
+                                   padx=20,
+                                   pady=5)
+
+    e1 = tk.Entry(master)
+    e2 = tk.Entry(master)
+    e3 = tk.Entry(master)
+
+    e1.grid(row=0, column=1)
+    e2.grid(row=1, column=1)
+    e3.grid(row=2, column=1)
+
+    values = []
+
+    def cont():
+        senderEmail = e1.get()
+        password = e2.get()
+        receiverEmail = e3.get()
+
+        master.destroy()
+
+        values.append(senderEmail)
+        values.append(password)
+        values.append(receiverEmail)
+
+    tk.Button(master,
+              text='Ok', command=cont).grid(row=3,
+                                            column=0,
+                                            sticky=tk.W,
+                                            pady=5,
+                                            padx=20)
+    tk.Button(master,
+              text='Cancel', command=master.quit).grid(row=3,
+                                                       column=1,
+                                                       sticky=tk.W,
+                                                       pady=5,
+                                                       padx=20)
+
+    tk.mainloop()
+
+    return values
 
 def check_price():
 
@@ -61,12 +115,15 @@ def check_price():
 
     
 def sendMail(prev_price, current_price, prod_name, url):
+
+    email, password, receiverEmail = getEmailDetails()
+
     server = smtplib.SMTP('smtp.gmail.com', 587)
     server.ehlo()
     server.starttls()
     server.ehlo()
 
-    server.login('mukeshbisht1020@gmail.com', 'xvzomrfgidvwxxto')
+    server.login(email, password)
 
     subject = "The price has been changed!!!"
     deviation = current_price - prev_price; 
@@ -75,11 +132,11 @@ def sendMail(prev_price, current_price, prod_name, url):
     msg = f"Subject: {subject}\n\n{body}"
 
     server.sendmail(
-        'mukeshbisht1020@gmail.com',
-        'heathcliff1020@gmail.com',
-         msg.encode('utf-8')
-        )
-
+        email,
+        receiverEmail,
+        msg.encode('utf-8')
+    )
+    
     print("Email has been sent.")
 
     server.quit()
